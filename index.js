@@ -29,39 +29,3 @@ app.post('/kandang', async (req, res) => {
     }
 });
 
-app.get('/kandang', async (req, res) => {
-    try {
-        const kandang = await db.Kandang.findAll();
-        res.send(kandang);
-    } catch (error) {
-        res.status(500).send({ message: error.message });
-    }
-});
-app.put('/kandang/:id', async (req, res) => {
-    const id = req.params.id;
-    const data = req.body;
-    try {
-        const kandang = await db.Kandang.findByPk(id);
-        if (!kandang) {
-            return res.status(404).send({ message: 'Kandang not found' });
-        }
-        await kandang.update(data);
-        res.send({ message: 'Kandang Berhasil Diupdate', kandang });
-    } catch (error) {
-        res.status(500).send({ message: error.message });
-    }
-});
-
-app.delete('/kandang/:id', async (req, res) => {
-    const id = req.params.id;
-    try {
-        const kandang = await db.Kandang.findByPk(id);
-        if (!kandang) {
-            return res.status(404).send({ message: 'Kandang not found' });
-        }
-        await kandang.destroy();
-        res.send({ message: 'Kandang Berhasil Dihapus' });
-    } catch (error) {
-        res.status(500).send({ message: error.message });
-    }
-});
